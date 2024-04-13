@@ -2,11 +2,12 @@ package main
 
 import (
 	"database/sql"
+	"log"
+
 	"github.com/Petatron/bank-simulator-backend/api"
 	db "github.com/Petatron/bank-simulator-backend/db/sqlc"
 	"github.com/Petatron/bank-simulator-backend/db/util"
 	_ "github.com/lib/pq"
-	"log"
 )
 
 func main() {

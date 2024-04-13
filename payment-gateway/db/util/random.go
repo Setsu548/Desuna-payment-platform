@@ -3,7 +3,7 @@ package util
 import (
 	"math/rand"
 
-	"github.com/Setsu548/Desuna-payment-platform/tree/master/bank-simulator-backend/db/model"
+	"github.com/Setsu548/Desuna-payment-platform/tree/master/payment-gateway/model"
 )
 
 const alphabet = "abcdefghijklmnopqrstuvwxyz"

@@ -6,8 +6,9 @@ import (
 
 	_ "github.com/lib/pq"
 
-	"github.com/Setsu548/Desuna-payment-platform/tree/master/bank-simulator-backend/db/sqlc"
-	"github.com/Setsu548/Desuna-payment-platform/tree/master/bank-simulator-backend/db/util"
+	"github.com/Setsu548/Desuna-payment-platform/tree/master/payment-gateway/db/sqlc"
+	"github.com/Setsu548/Desuna-payment-platform/tree/master/payment-gateway/db/util"
+	"github.com/Setsu548/Desuna-payment-platform/tree/master/payment-gateway/routes"
 )
 
 func main() {
@@ -22,7 +23,13 @@ func main() {
 	}
 
 	store := sqlc.NewStore(conn)
-	server, err :=
+	server, err := routes.NewServer(config, store)
+	if err != nil {
+		log.Fatal("cannot create server with error: ", err)
+	}
 
-		log.Println(conn)
+	err = server.Start(config.ServerAddress)
+	if err != nil {
+		log.Fatal("cannot start server with error: ", err)
+	}
 }

@@ -3,7 +3,7 @@ package model_test
 import (
 	"testing"
 
-	"github.com/Setsu548/Desuna-payment-platform/tree/master/bank-simulator-backend/db/model"
+	"github.com/Setsu548/Desuna-payment-platform/tree/master/payment-gateway/model"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 )
