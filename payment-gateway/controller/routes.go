@@ -1,4 +1,4 @@
-package routes
+package controller
 
 import (
 	"fmt"
@@ -13,10 +13,10 @@ import (
 )
 
 type ServerConfig struct {
-	config     util.Config
-	store      sqlc.Store
-	tokenMaker token.IMaker
-	router     *gin.Engine
+	Config     util.Config
+	Store      sqlc.Store
+	TokenMaker token.IMaker
+	Router     *gin.Engine
 }
 
 func NewServer(config util.Config, store sqlc.Store) (*ServerConfig, error) {
@@ -26,9 +26,9 @@ func NewServer(config util.Config, store sqlc.Store) (*ServerConfig, error) {
 	}
 
 	server := &ServerConfig{
-		config:     config,
-		store:      store,
-		tokenMaker: tokenMaker,
+		Config:     config,
+		Store:      store,
+		TokenMaker: tokenMaker,
 	}
 	if v, ok := binding.Validator.Engine().(*validator.Validate); ok {
 		err := v.RegisterValidation("Currency", services.ValidCurrency)
@@ -45,11 +45,13 @@ func NewServer(config util.Config, store sqlc.Store) (*ServerConfig, error) {
 func (server *ServerConfig) setupRouter() {
 	route := gin.Default()
 
-	route.GET("/route", func(ctx *gin.Context) {})
+	route.POST("/user", server.CreateUser)
+
+	server.Router = route
 }
 
 func (server *ServerConfig) Start(address string) error {
-	return server.router.Run(address)
+	return server.Router.Run(address)
 }
 
 func ErrorResponse(err error) gin.H {

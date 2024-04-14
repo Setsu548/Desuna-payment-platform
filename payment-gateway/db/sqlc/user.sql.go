@@ -7,7 +7,7 @@ import (
 )
 
 const createUsers = `-- name: CreateUsers :one
-INSERT INTO merchant.users (
+INSERT INTO public.users (
     username,
     hashed_password,
     full_name,
