@@ -9,6 +9,7 @@ import (
 type Querier interface {
 	MakePayment(ctx context.Context) (Payment, error)
 	CreateUser(ctx context.Context, arg CreateUsersParams) (model.User, error)
+	GetUserByName(ctx context.Context, userName string) (model.User, error)
 	// ListPayment(ctx context.Context)(...)
 }
 
