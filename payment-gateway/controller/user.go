@@ -14,16 +14,20 @@ import (
 )
 
 type createUserRequest struct {
-	Username string `json:"username" binding:"required,alphanum"`
-	Password string `json:"password" binding:"required,min=6"`
-	FullName string `json:"full_name" binding:"required"`
-	Email    string `json:"email" binding:"required,email"`
+	Username      string `json:"username" binding:"required,alphanum"`
+	Password      string `json:"password" binding:"required,min=6"`
+	FullName      string `json:"full_name" binding:"required"`
+	Email         string `json:"email" binding:"required,email"`
+	AccountNumber int64  `json:"account_number" binding:"required"`
+	BankName      string `json:"bank_name" binding:"required"`
 }
 
 type userResponse struct {
 	Username          string    `json:"username"`
 	FullName          string    `json:"full_name"`
 	Email             string    `json:"email"`
+	AccountNumber     int64     `json:"account_number"`
+	BankName          string    `json:"bank_name"`
 	PasswordChangedAt time.Time `json:"password_changed_at"`
 	CreatedAt         time.Time `json:"created_at"`
 }
@@ -34,6 +38,8 @@ func newUserResponse(user model.User) userResponse {
 		Username:          user.Username,
 		FullName:          user.FullName,
 		Email:             user.Email,
+		AccountNumber:     user.AccountNumber,
+		BankName:          user.BankName,
 		PasswordChangedAt: user.PasswordChangedAt,
 		CreatedAt:         user.CreatedAt,
 	}
@@ -58,6 +64,8 @@ func (server *ServerConfig) CreateUser(ctx *gin.Context) {
 		HashedPassword: hashedPassword,
 		FullName:       req.FullName,
 		Email:          req.Email,
+		AccountNumber:  req.AccountNumber,
+		BankName:       req.BankName,
 	}
 
 	user, err := server.Store.CreateUser(ctx, arg)

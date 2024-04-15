@@ -11,10 +11,12 @@ INSERT INTO public.users (
     username,
     hashed_password,
     full_name,
-    email
+    email,
+	account_number,
+	bank_name
 ) VALUES (
-    $1, $2, $3, $4
-) RETURNING username, hashed_password, full_name, email, password_changed_at, created_at
+    $1, $2, $3, $4, $5, $6
+) RETURNING username, hashed_password, full_name, email, account_number, bank_name, password_changed_at, created_at
 `
 
 type CreateUsersParams struct {
@@ -22,6 +24,8 @@ type CreateUsersParams struct {
 	HashedPassword string `json:"hashed_password"`
 	FullName       string `json:"full_name"`
 	Email          string `json:"email"`
+	AccountNumber  int64  `json:"account_number"`
+	BankName       string `json:"bank_name"`
 }
 
 func (q *Queries) CreateUser(ctx context.Context, arg CreateUsersParams) (model.User, error) {
@@ -30,6 +34,8 @@ func (q *Queries) CreateUser(ctx context.Context, arg CreateUsersParams) (model.
 		arg.HashedPassword,
 		arg.FullName,
 		arg.Email,
+		arg.AccountNumber,
+		arg.BankName,
 	)
 
 	var u model.User
@@ -38,6 +44,8 @@ func (q *Queries) CreateUser(ctx context.Context, arg CreateUsersParams) (model.
 		&u.HashedPassword,
 		&u.FullName,
 		&u.Email,
+		&u.AccountNumber,
+		&u.BankName,
 		&u.PasswordChangedAt,
 		&u.CreatedAt,
 	)
