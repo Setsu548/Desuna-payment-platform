@@ -1,7 +1,4 @@
 
--- -- CREATE UNIQUE INDEX ON "accounts" ("owner", "currency");
--- ALTER TABLE "accounts" ADD CONSTRAINT "owner_currency_key" UNIQUE ("owner", "currency");
-
 CREATE TABLE "users" (
     "username"            varchar PRIMARY KEY,
     "hashed_password"     varchar NOT NULL,
@@ -14,24 +11,18 @@ CREATE TABLE "users" (
 );
 
 CREATE TABLE "Payments" (
-    "id"          bigserial PRIMARY KEY,
-    "card_number" bigint NOT NULL,
-    "Card_name"   varchar NOT NULL,
-    "Expire_date" varchar NOT NULL,
-    "ccv_number"  int NOT NULL,
-    "created_at"  timestamptz NOT NULL DEFAULT (now()),
-    "Deleted_at"  timestamptz NULL
+    "id"           bigserial PRIMARY KEY,
+    "to_id_user"   varchar NOT NULL, -- foreign key
+    "amount"       decimal(10,2) NOT NULL,
+    "type"         varchar NOT NULL,
+    "email"        varchar NOT NULL,
+    "card_number"  bigint NOT NULL,
+    "card_name"    varchar NOT NULL,
+    "expire_date"  varchar NOT NULL,
+    "refunded" BOOLEAN NOT NULL,
+    "created_at"   timestamptz NOT NULL DEFAULT (now()),
+    "updated_at"   timestamptz NULL,
+    "deleted_at"   timestamptz NULL
 );
 
-CREATE TABLE "transfers" (
-    "id"              bigserial PRIMARY KEY,
-    "Amount"          decimal(10,2) NOT NULL,
-    "from_id_payment" bigint NOT NULL,
-    "to_id_collect"   bigint NOT NULL,
-    "date"            timestamptz NOT NULL DEFAULT (now()),
-    "created_at"      timestamptz NOT NULL DEFAULT (now())
-);
-
-ALTER TABLE "collect_payments" ADD FOREIGN KEY ("from_id_payment") REFERENCES "Payments" ("id");
-ALTER TABLE "collect_payments" ADD FOREIGN KEY ("to_id_collect") REFERENCES "users" ("username");
-
+ALTER TABLE "Payments" ADD FOREIGN KEY ("to_id_user") REFERENCES "users" ("username");

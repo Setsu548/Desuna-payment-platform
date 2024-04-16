@@ -54,7 +54,7 @@ func (q *Queries) CreateUser(ctx context.Context, arg CreateUsersParams) (model.
 }
 
 const getUser = `-- name: GetUserByName :one
-SELECT username, hashed_password, full_name, email, password_changed_at, created_at FROM users
+SELECT username, hashed_password, full_name, email, account_number, bank_name, password_changed_at, created_at FROM users
 WHERE username = $1 LIMIT 1
 `
 
@@ -66,6 +66,8 @@ func (q *Queries) GetUserByName(ctx context.Context, username string) (model.Use
 		&u.HashedPassword,
 		&u.FullName,
 		&u.Email,
+		&u.AccountNumber,
+		&u.BankName,
 		&u.PasswordChangedAt,
 		&u.CreatedAt,
 	)

@@ -46,6 +46,8 @@ func (server *ServerConfig) setupRouter() {
 	route := gin.Default()
 
 	route.POST("/user", server.CreateUser)
+	route.POST("/login", server.LoginUser)
+	route.POST("/payment", server.MakePayment)
 
 	server.Router = route
 }
