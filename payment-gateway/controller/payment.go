@@ -5,6 +5,7 @@ import (
 
 	"github.com/Setsu548/Desuna-payment-platform/tree/master/payment-gateway/db/sqlc"
 	"github.com/Setsu548/Desuna-payment-platform/tree/master/payment-gateway/model"
+	"github.com/Setsu548/Desuna-payment-platform/tree/master/payment-gateway/services"
 	"github.com/gin-gonic/gin"
 )
 
@@ -32,10 +33,27 @@ func (sc *ServerConfig) MakePayment(ctx *gin.Context) {
 		return
 	}
 
-	// send info to the bank
 	// validate card number function // todo
-
 	//vaidate ccv number function // todo
+
+	// send info to the bank
+	bankRequest := PaymentsRequest{
+		User:        req.User,
+		Amount:      req.Amount,
+		PaymentType: req.PaymentType,
+		Email:       req.Email,
+		CardNumber:  req.CardNumber,
+		CardName:    req.CardName,
+		CCV:         req.CCV,
+		ExpireDate:  req.ExpireDate,
+	}
+
+	// it have to receive from Bank service
+	_, err := services.BankService(ctx, bankRequest)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, ErrorResponse(err))
+		return
+	}
 
 	arg := sqlc.MakePaymentParams{
 		User:        req.User,
@@ -47,11 +65,11 @@ func (sc *ServerConfig) MakePayment(ctx *gin.Context) {
 		ExpireDate:  req.ExpireDate,
 	}
 
-	err := sc.Store.MakePayment(ctx, arg)
+	err = sc.Store.MakePayment(ctx, arg)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, ErrorResponse(err))
 		return
 	}
 
-	ctx.JSON(http.StatusAccepted, "ok")
+	ctx.JSON(http.StatusCreated, map[string]string{"status": "Created"})
 }

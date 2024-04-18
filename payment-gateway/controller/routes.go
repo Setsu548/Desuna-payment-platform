@@ -44,6 +44,7 @@ func NewServer(config util.Config, store sqlc.Store) (*ServerConfig, error) {
 
 func (server *ServerConfig) setupRouter() {
 	route := gin.Default()
+	route.GET("/health", server.health)
 
 	route.POST("/user", server.CreateUser)
 	route.POST("/login", server.LoginUser)

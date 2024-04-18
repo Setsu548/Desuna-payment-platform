@@ -1,0 +1,16 @@
+version: '3.9'
+
+services:
+  postgres:
+    container_name: postgres-db
+    image: postgres:16-alpine
+    ports:
+      - 5432:5432
+    volumes:
+      - ~/apps/postgres:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=Control123
+      - POSTGRES_USER=root
+      - POSTGRES_DB=test_db
+      - POSTGRES_MULTIPLE_DATABASES=bank_simulator,payment_service
+

@@ -3,9 +3,10 @@ package api
 import (
 	"database/sql"
 	"errors"
+	"net/http"
+
 	"github.com/Petatron/bank-simulator-backend/token"
 	"github.com/lib/pq"
-	"net/http"
 
 	db "github.com/Petatron/bank-simulator-backend/db/sqlc"
 	"github.com/Petatron/bank-simulator-backend/model"
@@ -29,7 +30,7 @@ func (server *Server) createAccount(ctx *gin.Context) {
 	authPayload := ctx.MustGet(authorizationPayloadKey).(*token.Payload)
 	arg := db.CreateAccountParams{
 		Owner:    authPayload.Username,
-		Balance:  0,
+		Balance:  150000,
 		Currency: string(req.Currency),
 	}
 
