@@ -10,6 +10,5 @@ COPY . .
 RUN go build -v -o bin/app 
 
 EXPOSE 8080
-CMD ["bin/app"]
-# ENTRYPOINT [ "./start.sh" ]
+CMD ["sh start.sh && bin/app"]
 

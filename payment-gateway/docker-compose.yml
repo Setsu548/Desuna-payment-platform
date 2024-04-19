@@ -25,6 +25,3 @@ services:
       - DB_USER=root
       - DB_PASSWORD=Control123
       - DB_NAME=payment_service
-    depends_on:
-      - postgres
-    command: ["bash", "./start.sh"]
