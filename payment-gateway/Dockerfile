@@ -7,10 +7,9 @@ COPY go.mod go.sum ./
 RUN go mod download && go mod verify
 
 COPY . .
-# RUN mkdir -p /bin
 RUN go build -v -o bin/app 
 
-EXPOSE 8081
+EXPOSE 8080
 CMD ["bin/app"]
-# ENTRYPOINT ["/docker-gs-ping"]
+# ENTRYPOINT [ "./start.sh" ]
 

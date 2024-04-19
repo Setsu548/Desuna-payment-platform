@@ -2,6 +2,7 @@ package controller
 
 import (
 	"fmt"
+	"net/http"
 
 	"github.com/Setsu548/Desuna-payment-platform/tree/master/payment-gateway/db/sqlc"
 	"github.com/Setsu548/Desuna-payment-platform/tree/master/payment-gateway/db/util"
@@ -44,7 +45,9 @@ func NewServer(config util.Config, store sqlc.Store) (*ServerConfig, error) {
 
 func (server *ServerConfig) setupRouter() {
 	route := gin.Default()
-	route.GET("/health", server.health)
+	route.GET("/health", func(ctx *gin.Context) {
+		ctx.JSON(http.StatusOK, "Health")
+	})
 
 	route.POST("/user", server.CreateUser)
 	route.POST("/login", server.LoginUser)

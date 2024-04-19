@@ -1,5 +1,5 @@
 
-CREATE TABLE "users" (
+CREATE TABLE public."users" (
     "username"            varchar PRIMARY KEY,
     "hashed_password"     varchar NOT NULL,
     "full_name"           varchar NOT NULL,
@@ -10,7 +10,7 @@ CREATE TABLE "users" (
     "created_at"          timestamptz NOT NULL DEFAULT (now())
 );
 
-CREATE TABLE "Payments" (
+CREATE TABLE public."Payments" (
     "id"           bigserial PRIMARY KEY,
     "to_id_user"   varchar NOT NULL, -- foreign key
     "amount"       decimal(10,2) NOT NULL,
