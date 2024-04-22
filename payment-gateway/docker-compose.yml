@@ -5,7 +5,11 @@ services:
     ports:
       - 5432:5432
     volumes:
-      - ~/apps/postgres:/var/lib/postgresql/data
+      - type: tmpfs
+        target: /dev/shm
+        tmpfs:
+          size: 134217728 # 128*2^20 bytes = 128Mb
+      # - ~/apps/postgres:/var/lib/postgresql/data
     environment:
       - POSTGRES_PASSWORD=Control123
       - POSTGRES_USER=root
@@ -14,14 +18,7 @@ services:
   backend:
     image: payment
     build:
-      context: ./
+      context: .
       dockerfile: Dockerfile  
     ports: 
       - "8080:8080"
-    environment:
-      - DB_SOURCE=postgresql://root:Control123@postgres:5432/bank_simulator?sslmode=disable
-      - DB_HOST=localhost  # Assuming the internal service name of the postgres service
-      - DB_PORT=5432
-      - DB_USER=root
-      - DB_PASSWORD=Control123
-      - DB_NAME=payment_service

@@ -8,7 +8,8 @@ RUN go mod download && go mod verify
 
 COPY . .
 RUN go build -v -o bin/app 
+# RUN bash ./start.sh
 
 EXPOSE 8080
-CMD ["sh start.sh && bin/app"]
+CMD ["bin/app"]
 
